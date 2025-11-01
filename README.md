@@ -1,16 +1,14 @@
 # AOSP_REBUILD_AVB_BOOT ⚙️
 
-> 用 **AOSP 公共测试密钥** 给 `boot.img` 重新签名的小仓库。  
-> 目标场景：有 boot、你没原厂私钥、你要它能过 AVB，最好还能在 CI 里一键跑完。
-
+> 用 **AOSP 公共测试密钥** 给 `boot.img` 重新签名的仓库。  
+> 适用于 **联想拯救者Y700四/三/二代**等由AOSP公钥签名的镜像
 ---
 
 ## ✨ 特性
 
-- 🔐 **AOSP testkey 重签**：把没签/错签的 `boot.img` 拉进来，用 AOSP 提供的公测密钥重做 AVB header。
-- 🧰 **自带工具**：仓库内放好了要用的脚本/工具（`rebuild_avb.py`、`magiskboot`、`tools/`），免得本地还要再找一堆依赖。
-- 📦 **CI 友好**：可直接在 GitHub Actions 里用 `+archive/refs/heads/main.tar.gz` 拉快照、解包就跑。
-- 🧪 **贴安卓 GKI 流程**：你前面已经用 AOSP 内核仓库编出 boot 了，这里就是最后一步“重签 → 上传”。
+- 🔐 **AOSP testkey 重签**：可将没签/错签的 `boot.img` 拉进来，用 AOSP 提供的公测密钥重做 AVB header。
+- 🧰 **自带工具**：仓库内置环境/脚本/工具（`rebuild_avb.py`、`magiskboot`、`tools/`）。
+- 📦 **CI 友好**：可直接在 GitHub Actions 中用 `+archive/refs/heads/main.tar.gz` 拉快照使用
 
 ---
 
@@ -29,7 +27,7 @@ AOSP_REBUILD_AVB_BOOT/
 ### 1. 下载仓库快照（示例）
 
 ```bash
-curl -L https://github.com/Genji-Hook/AOSP_REBUILD_AVB_BOOT/archive/refs/heads/main.tar.gz -o avb_boot.tar.gz
+curl -L https://github.com/showdo/AOSP_REBUILD_AVB_BOOT/archive/refs/heads/main.tar.gz -o avb_boot.tar.gz
 mkdir avb_boot && tar -xzf avb_boot.tar.gz -C avb_boot
 cd avb_boot/AOSP_REBUILD_AVB_BOOT-main
 ```
@@ -48,9 +46,10 @@ rebuild_avb.py --chained-mode
 ```
 
 脚本会在当前目录生成一个**已经用 AOSP 公测 key 签过**的 boot.img从而替换原boot.img
+<br>原boot将自动移动至backup*开头目录中
 
 ---
-### 4. 最后导出即可直接刷入使用
+### 4. 最后导出签名后boot.img即可直接刷入使用
 
 
 ## ❗注意事项
