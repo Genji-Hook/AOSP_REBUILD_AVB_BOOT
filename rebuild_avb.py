@@ -6,8 +6,9 @@ import shutil
 import re
 import argparse
 from datetime import datetime
+import sys
+PYTHON_EXECUTABLE = sys.executable or "python3"
 
-PYTHON_EXECUTABLE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools", "python-3.8.0", "python.exe")
 
 class AvbImageParser:
     """解析AVB镜像信息的类"""
@@ -606,4 +607,5 @@ def main():
 
 if __name__ == "__main__":
     success = main()
+
     sys.exit(0 if success else 1)
