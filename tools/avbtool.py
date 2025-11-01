@@ -36,6 +36,8 @@ import subprocess
 import sys
 import tempfile
 import time
+import shutil
+
 
 # Keep in sync with libavb/avb_version.h.
 AVB_VERSION_MAJOR = 1
@@ -5082,4 +5084,5 @@ if __name__ == '__main__':
 
   tool = AvbTool()
   tool.run(sys.argv)
+
 
