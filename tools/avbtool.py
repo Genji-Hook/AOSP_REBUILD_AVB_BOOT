@@ -52,11 +52,16 @@ AVB_VBMETA_IMAGE_FLAGS_VERIFICATION_DISABLED = 2
 # Configuration for enabling logging of calls to avbtool.
 AVB_INVOCATION_LOGFILE = os.environ.get('AVB_INVOCATION_LOGFILE')
 
-# Configuration for OpenSSL executable path
-# Default to local openssl if it exists, otherwise use system openssl
 _script_dir = os.path.dirname(os.path.abspath(__file__))
 _local_openssl = os.path.join(_script_dir, 'openssl', 'openssl.exe')
-OPENSSL_EXECUTABLE = _local_openssl if os.path.exists(_local_openssl) else 'openssl'
+
+# 先用系统的，如果系统上没有再用本地打包的
+if shutil.which('openssl'):
+    OPENSSL_EXECUTABLE = 'openssl'
+elif os.path.exists(_local_openssl):
+    OPENSSL_EXECUTABLE = _local_openssl
+else:
+    raise RuntimeError("No usable openssl found")
 
 def _get_openssl_env():
   """Get environment variables for OpenSSL execution.
@@ -5077,3 +5082,4 @@ if __name__ == '__main__':
 
   tool = AvbTool()
   tool.run(sys.argv)
+
